@@ -1,0 +1,36 @@
+body{
+background-color: rgb(227, 104, 26);
+font-family: fantasy;
+font-size: 2rem;
+}
+
+.calculator-display{
+min-height: 100px;
+background-color: black;
+text-align: right;
+padding-top: 20px;
+padding-right: 10px;
+}
+
+.calculator-display-top{
+color: rgb(65, 65, 64);
+margin: 0;
+font-size: 1rem;
+}
+
+.calculator-display-bottom{
+color: #ffffff;
+}
+
+.parent{
+  position: absolute;
+  left: 390px;
+  width: 40%;
+  top: 50px;
+}
+
+.second{
+  position: absolute;
+  left: 390px;
+  top: 300px;
+}

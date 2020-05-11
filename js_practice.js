@@ -1,14 +1,31 @@
-let num = 50;
+let input = document.querySelector("input");
+let calcTopDisplay = document.querySelector(".calculator-display-top");
+let calcBottomDisplay = document.querySelector(".calculator-display-bottom");
+input.addEventListener('keypress', fillDisplay);
 
-if(num < 49) {
-alert('Мало');
-} else if(num > 100) {
-alert('Дохуя');
-} else {
-alert('Верно!');
+
+function fillDisplay(){
+if(event.keyCode == 13) {
+calcBottomDisplay.innerHTML = this.value;
+calcTopDisplay.innerHTML = this.value;
+}
 }
 
-(num == 50) ? alert('Верно!') : alert('Мало');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
@@ -20,9 +37,4 @@ else if = в противном случае (Если первое услови
 Если мы используем if + else if, то только одно из условий сработает (второе не смотрим)
 
 Тернарный оператор ? (Всмысле тройной, три условия)
-
-Хуй пизда
-
-
-
 */
