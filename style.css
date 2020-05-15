@@ -16,21 +16,14 @@ padding-right: 10px;
 color: rgb(65, 65, 64);
 margin: 0;
 font-size: 1rem;
+min-height: 30px;
 }
 
 .calculator-display-bottom{
 color: #ffffff;
 }
 
-.parent{
-  position: absolute;
-  left: 390px;
-  width: 40%;
-  top: 50px;
-}
 
-.second{
-  position: absolute;
-  left: 390px;
-  top: 300px;
+.parent{
+min-width: 50%;
 }
