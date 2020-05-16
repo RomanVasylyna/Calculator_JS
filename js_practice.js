@@ -12,7 +12,7 @@ for(let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener('click', clearInput);
     break;
     case "DEL":
-    buttons[i].addEventListener('click', clearOneInputElem);
+    buttons[i].addEventListener('click', clearBottomDisplay);
     break;
     case "0":
     case "1":
@@ -33,14 +33,15 @@ for(let i = 0; i < buttons.length; i++) {
     case "-":
     buttons[i].addEventListener('click', calculateNum);
     break;
-    case "&#247;":
+    case "÷":
     buttons[i].addEventListener('click', calculateNum);
     break;
     case "*":
     buttons[i].addEventListener('click', calculateNum);
     break;
-
-
+    case "=":
+    buttons[i].addEventListener('click', getResults);
+    break;
   }
 }
 }
@@ -55,8 +56,33 @@ calcDisplayBottom.innerHTML += this.innerHTML;
 }
 
 //Clearing only one element at a time
-function clearOneInputElem() {
+function clearBottomDisplay() {
+calcDisplayBottom.innerHTML = 0;
+}
 
+//After clicking "="
+function getResults() {
+  let num = calcDisplayTop.innerHTML.match(/\d/g); //Get number
+  let sign = calcDisplayTop.innerHTML.match(/\W+/g); //Get sign
+  checkSign(sign); //Function that checks sign
+
+}
+
+//Depending on the sign make an operation
+function checkSign(sign) {
+  if(sign == '+') {
+  calcDisplayTop.innerHTML += calcDisplayBottom.innerHTML + '=';
+  calcDisplayBottom.innerHTML = parseInt(calcDisplayTop.innerHTML) + parseInt(calcDisplayBottom.innerHTML);
+} else if(sign == '-') {
+  calcDisplayTop.innerHTML += calcDisplayBottom.innerHTML + '=';
+  calcDisplayBottom.innerHTML = parseInt(calcDisplayTop.innerHTML) - parseInt(calcDisplayBottom.innerHTML);
+} else if(sign == '*') {
+  calcDisplayTop.innerHTML += calcDisplayBottom.innerHTML + '=';
+  calcDisplayBottom.innerHTML = parseInt(calcDisplayTop.innerHTML) * parseInt(calcDisplayBottom.innerHTML);
+} else if(sign == '÷') {
+  calcDisplayTop.innerHTML += calcDisplayBottom.innerHTML + '=';
+  calcDisplayBottom.innerHTML = parseInt(calcDisplayTop.innerHTML) / parseInt(calcDisplayBottom.innerHTML);
+  }
 }
 
 //Math operations func
@@ -88,30 +114,9 @@ calcDisplayBottom.innerHTML = 0;
 addOnclickEvent(buttons);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
-JS Конспект
 
-if vs else if
-else if = в противном случае (Если первое условие не сработало)
-Если мы используем несколько if, то все они сработают.
-Если мы используем if + else if, то только одно из условий сработает (второе не смотрим)
+2. Операции с запятой.
+3. Обнулить инпут после нажатия другой клавиши.
 
-Тернарный оператор ? (Всмысле тройной, три условия)
 */
