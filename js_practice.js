@@ -65,11 +65,12 @@ function getResults() {
   let num = calcDisplayTop.innerHTML.match(/\d/g); //Get number
   let sign = calcDisplayTop.innerHTML.match(/\W+/g); //Get sign
   checkSign(sign); //Function that checks sign
-
 }
 
 //Depending on the sign make an operation
 function checkSign(sign) {
+  alert(replaceCommaWithDot(calcDisplayTop, calcDisplayBottom)[0]); //If inputs contain comma turn it into dot
+  alert(replaceCommaWithDot(calcDisplayTop, calcDisplayBottom)[1]);
   if(sign == '+') {
   calcDisplayTop.innerHTML += calcDisplayBottom.innerHTML + '=';
   calcDisplayBottom.innerHTML = parseInt(calcDisplayTop.innerHTML) + parseInt(calcDisplayBottom.innerHTML);
@@ -84,6 +85,7 @@ function checkSign(sign) {
   calcDisplayBottom.innerHTML = parseInt(calcDisplayTop.innerHTML) / parseInt(calcDisplayBottom.innerHTML);
   }
 }
+
 
 //Math operations func
 function calculateNum() {
@@ -104,6 +106,15 @@ let test = /\W/.test(calcDisplayBottom.innerHTML);
 return test;
 }
 
+//Replace ',' into '.' and completely remove operand sign
+function replaceCommaWithDot(displayTop,displayBottom) {
+  let regEx = /[\+\-\*\÷]/gi;
+  let replaceSigns = displayTop.innerHTML.replace(regEx,'');
+  let replaceBottom = displayBottom.innerHTML.replace(',','.');
+  let replaceTop = replaceSigns.replace(',','.');
+  return [replaceTop,replaceBottom];
+}
+
 //Completely clearing input
 function clearInput() {
 calcDisplayTop.innerHTML = '';
@@ -114,9 +125,13 @@ calcDisplayBottom.innerHTML = 0;
 addOnclickEvent(buttons);
 
 
-/*
 
-2. Операции с запятой.
+
+/*
+decimal number (2,5)
+2. Операции с запятой (1.превратить ее в точку. 2.сложить числа)
+Если решить не получится - просто заменить запятую на точку
+После нажатия AC вновь позволить коммы
 3. Обнулить инпут после нажатия другой клавиши.
 
 */
