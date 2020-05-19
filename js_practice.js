@@ -9,7 +9,7 @@ function addOnclickEvent(buttons){
 for(let i = 0; i < buttons.length; i++) {
   switch(buttons[i].innerHTML) {
     case "AC":
-    buttons[i].addEventListener('click', clearInput);
+    buttons[i].addEventListener('click', allClear);
     break;
     case "DEL":
     buttons[i].addEventListener('click', clearBottomDisplay);
@@ -49,49 +49,54 @@ for(let i = 0; i < buttons.length; i++) {
 //Output numbers 0-9 and ","
 function displayNumber() {
 checkIfZero();
-if(forbidSecondComma()){
-document.querySelector(".comma").removeEventListener('click', displayNumber);
-}
+forbidSecondComma();
 calcDisplayBottom.innerHTML += this.innerHTML;
-}
-
-//Clearing only one element at a time
-function clearBottomDisplay() {
-calcDisplayBottom.innerHTML = 0;
 }
 
 //After clicking "="
 function getResults() {
-  let num = calcDisplayTop.innerHTML.match(/\d/g); //Get number
-  let sign = calcDisplayTop.innerHTML.match(/\W+/g); //Get sign
-  checkSign(sign); //Function that checks sign
+  let symbol = calcDisplayTop.innerHTML.match(/[\+\-\*\÷]/g); //Get symbol
+  checkSign(symbol); //Function that checks symbol
 }
 
-//Depending on the sign make an operation
-function checkSign(sign) {
-  alert(replaceCommaWithDot(calcDisplayTop, calcDisplayBottom)[0]); //If inputs contain comma turn it into dot
-  alert(replaceCommaWithDot(calcDisplayTop, calcDisplayBottom)[1]);
-  if(sign == '+') {
+//Depending on the symbol commit an operation
+function checkSign(symbol) {
+  commasIntoDots();
+  if(symbol == '+') {
   calcDisplayTop.innerHTML += calcDisplayBottom.innerHTML + '=';
   calcDisplayBottom.innerHTML = parseInt(calcDisplayTop.innerHTML) + parseInt(calcDisplayBottom.innerHTML);
-} else if(sign == '-') {
+} else if(symbol == '-') {
   calcDisplayTop.innerHTML += calcDisplayBottom.innerHTML + '=';
   calcDisplayBottom.innerHTML = parseInt(calcDisplayTop.innerHTML) - parseInt(calcDisplayBottom.innerHTML);
-} else if(sign == '*') {
+} else if(symbol == '*') {
   calcDisplayTop.innerHTML += calcDisplayBottom.innerHTML + '=';
   calcDisplayBottom.innerHTML = parseInt(calcDisplayTop.innerHTML) * parseInt(calcDisplayBottom.innerHTML);
-} else if(sign == '÷') {
+} else if(symbol == '÷') {
   calcDisplayTop.innerHTML += calcDisplayBottom.innerHTML + '=';
   calcDisplayBottom.innerHTML = parseInt(calcDisplayTop.innerHTML) / parseInt(calcDisplayBottom.innerHTML);
   }
 }
 
+function commasIntoDots() {
+return [replaceTopComma(),replaceBottomComma()];
+}
+
+function replaceTopComma() {
+  let matchTop = calcDisplayTop.innerHTML.match(/\d+\,\d+/g);
+  let replaceTop = matchTop.join('').replace(',','.');
+  return replaceTop;
+}
+
+function replaceBottomComma() {
+  let matchBottom = calcDisplayBottom.innerHTML.match(/\d+\,\d+/g);
+  let replaceBottom = matchBottom.join('').replace(',','.');
+  return replaceBottom;
+}
 
 //Math operations func
 function calculateNum() {
 calcDisplayTop.innerHTML = calcDisplayBottom.innerHTML + this.innerHTML;
 }
-
 
 //If display contains zero remove it
 function checkIfZero() {
@@ -100,24 +105,28 @@ calcDisplayBottom.innerHTML = '';
 }
 }
 
-//If display already contains one "," forbid others
+//Forbid Second Comma
 function forbidSecondComma() {
-let test = /\W/.test(calcDisplayBottom.innerHTML);
+  if(containsComma()){
+  document.querySelector(".comma").removeEventListener('click', displayNumber);
+  }
+}
+
+//Check if input already contains one comma
+function containsComma() {
+let test = /\,/.test(calcDisplayBottom.innerHTML);
 return test;
 }
 
-//Replace ',' into '.' and completely remove operand sign
-function replaceCommaWithDot(displayTop,displayBottom) {
-  let regEx = /[\+\-\*\÷]/gi;
-  let replaceSigns = displayTop.innerHTML.replace(regEx,'');
-  let replaceBottom = displayBottom.innerHTML.replace(',','.');
-  let replaceTop = replaceSigns.replace(',','.');
-  return [replaceTop,replaceBottom];
+//Completely clearing input
+function allClear() {
+document.querySelector(".comma").addEventListener('click', displayNumber); //Allow to press commas again
+calcDisplayTop.innerHTML = '';
+calcDisplayBottom.innerHTML = 0;
 }
 
-//Completely clearing input
-function clearInput() {
-calcDisplayTop.innerHTML = '';
+//Clearing bottom input
+function clearBottomDisplay() {
 calcDisplayBottom.innerHTML = 0;
 }
 
@@ -125,13 +134,10 @@ calcDisplayBottom.innerHTML = 0;
 addOnclickEvent(buttons);
 
 
-
-
 /*
 decimal number (2,5)
-2. Операции с запятой (1.превратить ее в точку. 2.сложить числа)
+Пофиксить :
+1. Операции с запятой (1.превратить ее в точку. 2.сложить числа)
 Если решить не получится - просто заменить запятую на точку
-После нажатия AC вновь позволить коммы
-3. Обнулить инпут после нажатия другой клавиши.
-
+2. Обнулить инпут после нажатия другой клавиши.
 */
